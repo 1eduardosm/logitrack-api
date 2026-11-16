@@ -90,13 +90,13 @@ Armazena as informações de cada entrega realizada.
 
 ## Integrantes e Responsabilidades
 
-*Eduardo Moraes*
+*Eduardo Samuel Barbosa de Moraes*
 - Configuração inicial do projeto e do ambiente de desenvolvimento.
 - Implementação do servidor HTTP com TypeScript e Fastify.
 - Organização da arquitetura inicial do backend.
 - Desenvolvimento dos módulos de Motoristas e parte de Entregas nas próximas etapas.
 
-*Arthur Maciel*
+*Arthur Marcelino Maciel*
 - Definição do domínio e modelagem das entidades.
 - Elaboração do diagrama UML e dos relacionamentos.
 - Documentação do projeto no README.
