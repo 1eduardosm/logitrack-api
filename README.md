@@ -79,7 +79,7 @@ Essa organização facilita a manutenção, a separação das responsabilidades 
 
 ## Diagrama UML
 
-![Diagrama UML](docs/diagrama-uml.png)
+![Diagrama UML](docs/uml.png)
 
 ## Como executar
 
