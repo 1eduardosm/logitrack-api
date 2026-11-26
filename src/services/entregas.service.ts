@@ -1,7 +1,7 @@
 import { EntregasRepository } from '../repositories/entregas.repository';
 import type { CriarEntregaDTO, AtualizarEntregaDTO, ListarEntregasDTO } from '../dtos/entregas.dto';
 import { AppError } from '../errors/app-error';
-
+import { consultarCep } from './cep.service';
 
 
 function traduzirErroBanco(error: unknown): never {
@@ -29,12 +29,25 @@ export class EntregasService {
   }
 
   async create(dados: CriarEntregaDTO) {
-    try {
-      return await this.repository.create(dados);
-    } catch (error) {
-      traduzirErroBanco(error);
+  let endereco = dados.endereco_destino;
+
+  if (dados.cep) {
+    const enderecoViaCep = await consultarCep(dados.cep);
+
+    if (enderecoViaCep) {
+      endereco = enderecoViaCep;
     }
   }
+
+  try {
+    return await this.repository.create({
+      ...dados,
+      endereco_destino: endereco
+    });
+  } catch (error) {
+    traduzirErroBanco(error);
+  }
+}
 
   async update(id: number, dados: AtualizarEntregaDTO) {
     try {
