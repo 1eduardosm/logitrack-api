@@ -4,8 +4,11 @@ export const criarVeiculoSchema = z.object({
   placa: z.string()
     .trim()
     .min(1, 'Placa obrigatória')
-    .max(10)
-    .toUpperCase(),
+    .toUpperCase()
+    .regex(
+      /^(?:[A-Z]{3}[0-9]{4}|[A-Z]{3}[0-9][A-Z][0-9]{2})$/,
+      'Formato de placa inválido'
+    ),
 
   modelo: z.string()
     .trim()
