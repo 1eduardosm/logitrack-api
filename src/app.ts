@@ -3,6 +3,7 @@ import { pool } from './config/database';
 import { ZodError } from 'zod';
 import { AppError } from './errors/app-error';
 import { motoristasRoutes } from './routes/motoristas.routes';
+import { veiculosRoutes } from './routes/veiculos.routes';
 
 export const app = Fastify({
   logger: true
@@ -27,6 +28,7 @@ app.get('/health/database', async (request, reply) => {
 });
 
 app.register(motoristasRoutes);
+app.register(veiculosRoutes);
 
 app.setErrorHandler((error, request, reply) => {
   if (error instanceof ZodError) {
