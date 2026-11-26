@@ -29,6 +29,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD:?Defina DB_PASSWORD no .env}
       DB_NAME: ${DB_NAME:-logitrack}
       PORT: 3333
+      VIACEP_BASE_URL: ${VIACEP_BASE_URL:-https://viacep.com.br}
     volumes:
       - .:/app
       - /app/node_modules
