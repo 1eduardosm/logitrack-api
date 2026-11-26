@@ -11,7 +11,7 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD
 });
 
-const colunas = `id, descricao, endereco_destino,
+const colunas = `id, descricao, endereco_destino, cep,
   to_char(data_entrega, 'YYYY-MM-DD') AS data_entrega,
   status, motorista_id, veiculo_id`;
 
@@ -70,23 +70,47 @@ export class EntregasRepository {
   async create(dados: CriarEntregaDTO): Promise<EntregaResponseDTO> {
     const resultado = await pool.query<EntregaResponseDTO>(
       `INSERT INTO entrega
-        (descricao, endereco_destino, data_entrega, status, motorista_id, veiculo_id)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       RETURNING ${colunas}`,
-      [dados.descricao, dados.endereco_destino, dados.data_entrega ?? null,
-       dados.status, dados.motorista_id, dados.veiculo_id]
+      (descricao, endereco_destino, cep, data_entrega, status, motorista_id, veiculo_id)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
+     RETURNING ${colunas}`,
+      [
+        dados.descricao,
+        dados.endereco_destino,
+        dados.cep ?? null,
+        dados.data_entrega ?? null,
+        dados.status,
+        dados.motorista_id,
+        dados.veiculo_id
+      ]
     );
+
     return resultado.rows[0];
   }
 
   async update(id: number, dados: AtualizarEntregaDTO): Promise<EntregaResponseDTO | null> {
     const resultado = await pool.query<EntregaResponseDTO>(
-      `UPDATE entrega SET descricao = $2, endereco_destino = $3,
-         data_entrega = $4, status = $5, motorista_id = $6, veiculo_id = $7
-       WHERE id = $1 RETURNING ${colunas}`,
-      [id, dados.descricao, dados.endereco_destino, dados.data_entrega ?? null,
-       dados.status, dados.motorista_id, dados.veiculo_id]
+      `UPDATE entrega SET
+       descricao = $2,
+       endereco_destino = $3,
+       cep = $4,
+       data_entrega = $5,
+       status = $6,
+       motorista_id = $7,
+       veiculo_id = $8
+     WHERE id = $1
+     RETURNING ${colunas}`,
+      [
+        id,
+        dados.descricao,
+        dados.endereco_destino,
+        dados.cep ?? null,
+        dados.data_entrega ?? null,
+        dados.status,
+        dados.motorista_id,
+        dados.veiculo_id
+      ]
     );
+
     return resultado.rows[0] ?? null;
   }
 

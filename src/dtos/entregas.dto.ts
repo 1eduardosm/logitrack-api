@@ -11,6 +11,7 @@ export const statusEntregaSchema = z.enum([
 export const criarEntregaSchema = z.object({
   descricao: z.string().trim().min(3).max(255),
   endereco_destino: z.string().trim().min(3).max(255),
+  cep: z.string().trim().regex(/^\d{8}$/, 'CEP deve conter 8 dígitos').optional().nullable(),
   data_entrega: z.iso.date().optional().nullable(),
   status: statusEntregaSchema.default('PENDENTE'),
   motorista_id: z.number().int().positive(),
